@@ -1,87 +1,87 @@
 "use client";
-import { useGetNodeboxRuntime } from "@/hooks/useGetNodeboxRuntime";
-import { NEXT_14_TEMPLATE } from "@/lib/next-js-template";
-import { VITE_REACT_TS_TEMPLATE } from "@/lib/react-ts-template";
-import {
-  ClientOptions,
-  loadSandpackClient,
-  SandboxSetup,
-} from "@codesandbox/sandpack-client";
-import React, { useEffect } from "react";
+import { ExternalLink, Loader2, RotateCw } from "lucide-react";
+import { useRef, useState } from "react";
 
-const Preview = () => {
-  const { updateRuntimeFiles, runCode } = useGetNodeboxRuntime();
-  async function main() {
-    // Iframe selector or element itself
-    const iframe = document.getElementById("iframe") as HTMLIFrameElement;
-
-    // Files, environment and dependencies
-    const content: SandboxSetup = {
-      files: {
-        // We infer dependencies and the entry point from package.json
-        "/package.json": {
-          code: JSON.stringify({
-            main: "index.js",
-            dependencies: { uuid: "latest" },
-          }),
-        },
-
-        // Main file
-        "/index.js": { code: `console.log(require('uuid'))` },
-      },
-      entry: "/index.js",
-      dependencies: {
-        uuid: "latest",
-      },
-    };
-
-    // Optional options
-    const options: ClientOptions = {
-      externalResources: ["https://cdn.tailwindcss.com"],
-    };
-
-    // Properly load and mount the bundler
-    const client = await loadSandpackClient(iframe, content, options);
-
-    /**
-     * When you make a change, you can just run `updateSandbox`.
-     * We'll automatically discover which files have changed
-     * and hot reload them.
-     */
-    client.updateSandbox({
-      files: VITE_REACT_TS_TEMPLATE.files,
-      entry: "/src/app/page.tsx",
-      dependencies: {
-        react: "^18.0.0",
-        "react-dom": "^18.0.0",
-        "lucide-react": "^0.482.0",
-        "react-router-dom": "^6.21.1",
-      },
-      devDependencies: {
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
-        "@vitejs/plugin-react": "^4.3.4",
-        typescript: "^4.9.5",
-        vite: "4.2.0",
-        "esbuild-wasm": "^0.17.12",
-        tailwindcss: "^3.4.0",
-        postcss: "^8.4.0",
-        autoprefixer: "^10.4.0",
-      },
-    });
+const Preview = ({ url }: { url: string | undefined }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  function getPathName(url: string) {
+    if (!url) return;
+    const pathName = new URL(url).pathname;
+    if (pathName) {
+      return pathName;
+    }
+    return url;
   }
-  useEffect(() => {
-    // updateRuntimeFiles(VITE_REACT_TS_TEMPLATE.files);
-    main();
-  }, []);
+  const handleReload = () => {
+    if (iframeRef.current) {
+      iframeRef.current.src = url as string;
+    }
+  };
+  const handleOpenPreview = () => {
+    window.open(url as string, "_blank");
+  };
+  const handleUrlChange = () => {
+    if (iframeRef.current) {
+      const url = new URL(iframeRef.current.src);
+      url.pathname = pathName;
+      iframeRef.current.src = url.href;
+    }
+  };
+  const [pathName, setPathName] = useState<string>(
+    getPathName(url || "") as string
+  );
   return (
     <div
-      className=" h-full
+      className="  w-full h-full
     "
     >
-      <iframe id="iframe" className=" w-full h-full">
-        {" "}
-      </iframe>
+      {url ? (
+        <div className=" w-full h-full bg-[#121212] border rounded-md overflow-hidden">
+          <div className=" flex gap-2 items-center justify-between px-3">
+            <div className=" flex gap-2 items-center w-2/3 ">
+              <button
+                className=" hover:bg-secondary p-1 cursor-pointer rounded-md "
+                onClick={handleReload}
+              >
+                <RotateCw size={20} />
+              </button>
+
+              <input
+                type="text"
+                id="url"
+                value={pathName}
+                onChange={(e) => setPathName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleUrlChange();
+                  }
+                }}
+                className=" m-2 w-full p-1.5 border-input  border-2 rounded-lg  focus:ring-0 focus:outline-none"
+              />
+            </div>
+            <div className=" flex  items-center gap-4">
+              <button
+                className=" hover:bg-secondary p-1 cursor-pointer rounded-md "
+                onClick={handleOpenPreview}
+              >
+                <ExternalLink size={19} />
+              </button>
+            </div>
+          </div>
+          <iframe
+            id="iframe"
+            src={url}
+            className=" w-full h-full"
+            ref={iframeRef}
+          >
+            {" "}
+          </iframe>
+        </div>
+      ) : (
+        <div className=" w-full h-full flex items-center justify-center">
+          <Loader2 className=" animate-spin w-4 h-4 " />
+        </div>
+      )}
     </div>
   );
 };

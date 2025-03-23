@@ -1,7 +1,6 @@
-import { getSystemPrompt, SYSTEM_PROMPT } from "@/lib/prompts";
-import { VITE_REACT_TS_TEMPLATE } from "@/lib/react-ts-template";
+import { SYSTEM_PROMPT } from "@/lib/prompts";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText, streamText } from "ai";
+import { generateText } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

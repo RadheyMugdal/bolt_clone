@@ -1,42 +1,69 @@
 "use client";
-import React from "react";
-import { Button } from "./ui/button";
-import { ArrowRight, Circle, User2 } from "lucide-react";
-import axios from "axios";
+import { ProjectData } from "@/app/page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import axios from "axios";
+import { ArrowRight } from "lucide-react";
+import React from "react";
 import BouncingLoader from "./BouncingLoader";
+import { Button } from "./ui/button";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const Chat = () => {
+interface ChatProps {
+  setProjectData: React.Dispatch<React.SetStateAction<ProjectData | undefined>>;
+  projectData: ProjectData | undefined;
+}
+
+const Chat: React.FC<ChatProps> = ({ setProjectData, projectData }) => {
   const [message, setMessage] = React.useState("");
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [loading, setLoading] = React.useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessages([...messages, { role: "user", content: message }]);
+    setMessage("");
+    setMessages((prev) => [...prev, { role: "user", content: message }]);
     setLoading(true);
-    const response = await axios.post("/api/chat", {
-      messages: [
-        {
-          role: "user",
-          content: message,
-        },
-      ],
-    });
-    setMessages([
-      ...messages,
+    let data;
+    if (projectData) {
+      data = {
+        messages: [
+          {
+            role: "user",
+            content: message,
+          },
+          {
+            role: "user",
+            content: ` here is the project files ${JSON.stringify(
+              projectData?.files
+            )}`,
+          },
+        ],
+      };
+    } else {
+      data = {
+        messages: [
+          {
+            role: "user",
+            content: message,
+          },
+        ],
+      };
+    }
+    const response = await axios.post("/api/chat", data);
+    setMessages((prev) => [
+      ...prev,
       { role: "assistant", content: response.data.response.description },
     ]);
-    console.log(messages);
-
+    setProjectData({
+      files: response.data.response.files,
+    });
     setLoading(false);
   };
   return (
-    <div className=" flex p-6 items-center justify-center w-full h-full  flex-col gap-12 transition-all duration-300 ">
+    <div className=" flex p-6 items-center justify-center w-full h-full   flex-col gap-12 transition-all duration-300 ">
       {messages.length == 0 ? (
         <div className=" flex flex-col items-center gap-3 ">
           <h1 className=" text-5xl font-bold">What you want to build?</h1>
@@ -45,9 +72,9 @@ const Chat = () => {
           </p>
         </div>
       ) : (
-        <div className=" flex-1 flex flex-col gap-4  max-w-xl w-full px-6  ">
+        <div className=" flex-1 flex flex-col gap-4  max-w-xl w-full px-6  overflow-y-scroll  ">
           {messages.map((message, index) => (
-            <>
+            <div className="" key={message.content}>
               {message.role === "user" ? (
                 <div className=" bg-card px-3 py-4 rounded-lg flex  items-center gap-4 ">
                   <Avatar>
@@ -59,11 +86,13 @@ const Chat = () => {
                   </p>
                 </div>
               ) : (
-                <div className=" bg-card px-3 py-4 rounded-lg text-sm">
-                  {message.content}
+                <div className=" bg-card px-3 py-4 rounded-lg ">
+                  <p className=" text-foreground/80 text-sm">
+                    {message.content}
+                  </p>
                 </div>
               )}
-            </>
+            </div>
           ))}
 
           {loading && <BouncingLoader />}

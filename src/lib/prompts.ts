@@ -3,8 +3,7 @@ import {
   WORK_DIR,
   allowedHTMLElements,
 } from "./constants";
-import { VITE_REACT_TS_TEMPLATE } from "./react-ts-template";
-import { stripIndents } from "./stripindents";
+import { vite_template } from "./react-ts-template";
 
 export const BASE_PROMPT =
   "For all designs I ask you to make, have them be beautiful, not cookie cutter. Make webpages that are fully featured and worthy for production.\n\nBy default, this template supports TSX syntax with Tailwind CSS classes, React hooks, and Lucide React for icons. Do not install other packages for UI themes, icons, etc unless absolutely necessary or I request them.\n\nUse icons from lucide-react for logos.\n\nUse stock photos from unsplash where appropriate, only valid URLs you know exist. Do not download the images, only link to them in image tags.\n\n";
@@ -309,7 +308,7 @@ For all designs I ask you to make, have them be beautiful, not cookie cutter and
 <system_constraints>
   - You operate within a **Sandbox** environment.
   - The initial **Vite + React + TailwindCSS + TypeScript** project template follows:
-    ${VITE_REACT_TS_TEMPLATE.files}
+    ${vite_template}
 </system_constraints>
 
 <code_formatting_guidelines>
@@ -324,24 +323,18 @@ For all designs I ask you to make, have them be beautiful, not cookie cutter and
   
 
     {  
-       description:"Generate short message about whatever you are creating starting with "I'll help you create" also include what features you are creating ",
+       description:"What ever initial response you give apart from code",
        files:{
         "/path/to/file": {
         "code": "console.log('hello world')"
-      },
-      dependencies:{
-        include all the dependencies that you are adding while creating project apart from the ones that are already present in the given template's package.json.
       }
-      devDependencies:{
-        include all the devDependencies that you are adding while creating project apart from the ones that are already present in the given template's package.json.
-      }
-    }
-   
-    }
+    }   
+}
 </message_formatting_guidelines>
 `;
 
-export const CONTINUE_PROMPT = stripIndents`
-  Continue your prior response. IMPORTANT: Immediately begin from where you left off without any interruptions.
-  Do not repeat any content, including artifact and action tags.
-`;
+// Generate short message about whatever you are creating starting with "Sure,I'll help you create" also include what features you are creating
+// export const CONTINUE_PROMPT = stripIndents`
+//   Continue your prior response. IMPORTANT: Immediately begin from where you left off without any interruptions.
+//   Do not repeat any content, including artifact and action tags.
+// `;
