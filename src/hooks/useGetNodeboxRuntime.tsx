@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from "react";
 import { Nodebox } from "@codesandbox/nodebox";
+import { useCallback, useEffect, useState } from "react";
 
 export const useGetNodeboxRuntime = () => {
   const [runtime, setRuntime] = useState<Nodebox | null>(null);
@@ -13,7 +13,6 @@ export const useGetNodeboxRuntime = () => {
     ) as HTMLIFrameElement;
 
     if (!iframe) return;
-    console.log("here iframe");
 
     const nodeboxInstance = new Nodebox({ iframe });
     setRuntime(nodeboxInstance);
@@ -25,14 +24,12 @@ export const useGetNodeboxRuntime = () => {
 
   const updateRuntimeFiles = useCallback(async (files: any) => {
     if (!runtime) return;
-    console.log("here");
 
     await runtime.fs.init({ files });
   }, []);
 
   const runCode = useCallback(async () => {
     if (!runtime) return;
-    console.log("here");
 
     const shell = runtime.shell.create();
     const nextProcess = await shell.runCommand("npm", ["dev"]);

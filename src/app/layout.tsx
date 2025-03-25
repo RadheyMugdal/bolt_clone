@@ -1,7 +1,11 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import UserAuth from "@/components/auth/UserAuth";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
+import { Geist, Geist_Mono } from "next/font/google";
+import { HiLightningBolt } from "react-icons/hi";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,18 +29,33 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+      <CustomQueryClientProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
-        </ThemeProvider>
-      </body>
+          <SessionProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <main className=" flex flex-col w-screen h-screen overflow-hidden  ">
+                <header className=" p-2 border-b flex items-center justify-between ">
+                  <h1 className=" text-xl font-bold flex  items-center gap-2">
+                    <HiLightningBolt />
+                    Bolt
+                  </h1>
+                  <div>
+                    <UserAuth />
+                  </div>
+                </header>
+                <div className=" min-h-0 grow ">{children}</div>
+              </main>
+            </ThemeProvider>
+          </SessionProvider>
+        </body>
+      </CustomQueryClientProvider>
     </html>
   );
 }

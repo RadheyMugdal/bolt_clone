@@ -1,120 +1,129 @@
 "use client";
-import { ProjectData } from "@/app/page";
+import { Message } from "@/app/~/[id]/page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import axios from "axios";
+import { Button } from "@/components/ui/button";
+import { useGenerateInitialProject } from "@/hooks/ai/useGenerateInitialProject";
+import { useGenerateProject } from "@/hooks/ai/useGenerateProject";
+import { SandpackBundlerFiles } from "@codesandbox/sandpack-client";
 import { ArrowRight } from "lucide-react";
-import React from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import BouncingLoader from "./BouncingLoader";
-import { Button } from "./ui/button";
-
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
 
 interface ChatProps {
-  setProjectData: React.Dispatch<React.SetStateAction<ProjectData | undefined>>;
-  projectData: ProjectData | undefined;
+  setMessages: React.Dispatch<React.SetStateAction<Message[] | undefined>>;
+  messages: Message[] | undefined;
+  projectData?: SandpackBundlerFiles;
+  setProjectData: React.Dispatch<
+    React.SetStateAction<SandpackBundlerFiles | undefined>
+  >;
 }
 
-const Chat: React.FC<ChatProps> = ({ setProjectData, projectData }) => {
-  const [message, setMessage] = React.useState("");
-  const [messages, setMessages] = React.useState<Message[]>([]);
-  const [loading, setLoading] = React.useState(false);
+const Chat: React.FC<ChatProps> = ({
+  messages,
+  setMessages,
+  projectData,
+  setProjectData,
+}) => {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { isLoading, data } = useGenerateInitialProject(messages);
+  const { mutate } = useGenerateProject(setProjectData, setMessages);
+  useEffect(() => {
+    if (!data) return;
+    setMessages((prev: any) => [
+      ...prev,
+      { role: "assistant", message: data.messagesData.message },
+    ]);
+    setProjectData(data.files);
+  }, [data]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage("");
-    setMessages((prev) => [...prev, { role: "user", content: message }]);
+    if (!message.trim()) return;
+
+    const newMessages: Message[] = [
+      ...(messages as Message[]),
+      { role: "user", message: message.trim() },
+    ];
+    setMessages(newMessages as Message[]);
     setLoading(true);
-    let data;
+
+    const payload: { role: "user"; content: string }[] = [
+      { role: "user", content: message.trim() },
+    ];
+    setMessage("");
     if (projectData) {
-      data = {
-        messages: [
-          {
-            role: "user",
-            content: message,
-          },
-          {
-            role: "user",
-            content: ` here is the project files ${JSON.stringify(
-              projectData?.files
-            )}`,
-          },
-        ],
-      };
-    } else {
-      data = {
-        messages: [
-          {
-            role: "user",
-            content: message,
-          },
-        ],
-      };
+      payload.push({
+        role: "user",
+        content: `Here is the project files: ${JSON.stringify(
+          projectData.files
+        )}`,
+      });
     }
-    const response = await axios.post("/api/chat", data);
-    setMessages((prev) => [
-      ...prev,
-      { role: "assistant", content: response.data.response.description },
-    ]);
-    setProjectData({
-      files: response.data.response.files,
-    });
+
+    await mutate(payload);
     setLoading(false);
   };
+
   return (
-    <div className=" flex p-6 items-center justify-center w-full h-full   flex-col gap-12 transition-all duration-300 ">
-      {messages.length == 0 ? (
-        <div className=" flex flex-col items-center gap-3 ">
-          <h1 className=" text-5xl font-bold">What you want to build?</h1>
-          <p className=" opacity-60">
+    <div className="flex  w-full h-full px-6 py-4 gap-8  overflow-hidden items-center flex-col transition-all duration-300">
+      {messages?.length === 0 ? (
+        <div className="flex flex-col items-center gap-3">
+          <h1 className="text-5xl font-bold">What do you want to build?</h1>
+          <p className="opacity-60">
             Start by describing what you want to create.
           </p>
         </div>
       ) : (
-        <div className=" flex-1 flex flex-col gap-4  max-w-xl w-full px-6  overflow-y-scroll  ">
-          {messages.map((message, index) => (
-            <div className="" key={message.content}>
+        <div className=" flex-1  overflow-y-scroll flex flex-col gap-4 max-w-xl px-6 ">
+          {messages?.map((message: any, index: any) => (
+            <div key={index}>
               {message.role === "user" ? (
-                <div className=" bg-card px-3 py-4 rounded-lg flex  items-center gap-4 ">
+                <div className="bg-card px-3 py-4 rounded-lg flex items-center gap-4">
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src={session?.user?.image as string} />
+                    <AvatarFallback>
+                      {session?.user?.name
+                        ?.split(" ")
+                        .map((name) => name.charAt(0) as string)
+                        .join("")}
+                    </AvatarFallback>
                   </Avatar>
-                  <p className=" text-foreground/80 text-sm ">
-                    {message.content}
+                  <p className="text-foreground/80 text-sm">
+                    {message.message}
                   </p>
                 </div>
               ) : (
-                <div className=" bg-card px-3 py-4 rounded-lg ">
-                  <p className=" text-foreground/80 text-sm">
-                    {message.content}
+                <div className="bg-card px-3 py-4 rounded-lg flex flex-col gap-4">
+                  <p className="text-foreground/80 text-sm">
+                    {message.message}
                   </p>
                 </div>
               )}
             </div>
           ))}
 
-          {loading && <BouncingLoader />}
+          {(loading || isLoading) && <BouncingLoader />}
         </div>
       )}
-
       <form
-        action=""
-        className=" flex  max-w-xl w-full rounded-lg border  border-foreground/20"
+        className="flex max-w-xl w-full rounded-lg border border-foreground/20"
         onSubmit={handleSubmit}
       >
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          name=""
-          id=""
-          className="  p-4  w-full  resize-none  focus:outline-0 focus:ring-0"
+          className="p-4 w-full resize-none focus:outline-0 focus:ring-0"
           rows={4}
+          placeholder="Describe your project..."
         />
-        <div className=" flex items-center p-4">
-          <Button type="submit" className=" cursor-pointer" disabled={!message}>
-            <ArrowRight size={20} className=" text-black" />
+        <div className="flex items-center p-4">
+          <Button type="submit" disabled={!message.trim()}>
+            <ArrowRight size={20} className="text-black" />
           </Button>
         </div>
       </form>

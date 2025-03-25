@@ -1,6 +1,9 @@
+import db from "@/db";
+import { messages, workspaces } from "@/db/schema";
 import { SYSTEM_PROMPT } from "@/lib/prompts";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -10,17 +13,48 @@ export async function POST(req: NextRequest) {
     });
     const model = google("gemini-2.0-flash-001");
 
-    const { messages } = await req.json();
-
+    const { messages: userMessages, workspaceId } = await req.json();
     const { text } = await generateText({
-      messages,
+      messages: userMessages,
       maxTokens: 6000,
       model,
       system: SYSTEM_PROMPT,
     });
-    const ans = text.replace(/^```json\n/, "").replace(/\n```$/, "");
+    const ans = JSON.parse(
+      text.replace(/^```json\n/, "").replace(/\n```$/, "")
+    );
+    const init = Boolean(req.nextUrl.searchParams.get("init"));
+    if (!init) {
+      await db.insert(messages).values({
+        workspaceId,
+        message: userMessages[0].content,
+        role: "user",
+      });
+    }
+    const workspaceData = await db
+      .update(workspaces)
+      .set({
+        projectFiles: ans.files,
+      })
+      .where(eq(workspaces.id, workspaceId))
+      .returning();
 
-    return NextResponse.json({ response: JSON.parse(ans) });
+    const messagesData = await db
+      .insert(messages)
+      .values({
+        workspaceId: workspaceId,
+        message: ans.description,
+        role: "assistant",
+      })
+      .returning({
+        role: messages.role,
+        message: messages.message,
+      });
+
+    return NextResponse.json({
+      files: ans.files,
+      messagesData: messagesData[0],
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: error });

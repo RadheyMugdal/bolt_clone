@@ -1,29 +1,38 @@
+import { LoadingState } from "@/components/Sandpack";
 import { SandpackFiles } from "@codesandbox/sandpack-react";
 import { WebContainer } from "@webcontainer/api";
-import { convertSandpackToWebContainers } from "./react-ts-template/common";
 import React from "react";
+import { convertSandpackToWebContainers } from "./react-ts-template/common";
 
 export async function startApplication(
   WebContainer: WebContainer,
   files: SandpackFiles,
-  setUrl: React.Dispatch<React.SetStateAction<string>>
+  setUrl: React.Dispatch<React.SetStateAction<string>>,
+  setLoadingState: React.Dispatch<React.SetStateAction<LoadingState>>
 ) {
   try {
     if (!WebContainer) return;
+    setLoadingState("Mounting the files");
     const convertedFiles = convertSandpackToWebContainers(files);
     await WebContainer.mount(convertedFiles);
+    setLoadingState("Installing dependencies");
     const installProcess = await WebContainer.spawn("npm", ["install"]);
-    installProcess.output.pipeTo(
-      new WritableStream({
-        write(data) {
-          console.log(data);
-        },
-      })
-    );
+    // installProcess.output.pipeTo(
+    //   new WritableStream({
+    //     write(data) {
+    //       console.log(data);
+    //     },
+    //   })
+    // );
     await installProcess.exit;
-    await WebContainer.spawn("npm", ["run", "dev"]);
+    setLoadingState("Starting the application");
+    const startApplicationProcess = await WebContainer.spawn("npm", [
+      "run",
+      "dev",
+    ]);
     WebContainer.on("server-ready", (port, url) => {
       setUrl(url);
+      setLoadingState("Idle");
     });
   } catch (error) {
     console.error(error);

@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { streamObject } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { streamObject } from "ai";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 let notificationSchema = z
   .array(
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       const { partialObjectStream } = streamObject({
         model: google("gemini-2.0-flash-001"),
         system: "generate sample ios messages for testing",
-        prompt: "messages from a family group chat during diwali, max 4",
+        prompt: "messages from a family group chat during diwali, max 4 ",
         schema: notificationSchema,
       });
 

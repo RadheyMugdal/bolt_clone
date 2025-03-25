@@ -14,9 +14,16 @@ import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import Preview from "./Preview";
 
+export type LoadingState =
+  | "Idle"
+  | "Installing dependencies"
+  | "Starting the application"
+  | "Mounting the files";
+
 export default function SandpackEditor() {
   const { sandpack } = useSandpack();
   const webContainer = useWebContainer();
+  const [loadingState, setLoadingState] = useState<LoadingState>("Idle");
   const [url, setUrl] = useState("");
   const handleExportCode = async () => {
     const zip = new JSZip();
@@ -25,7 +32,6 @@ export default function SandpackEditor() {
     });
 
     const content = await zip.generateAsync({ type: "blob" });
-    console.log(content);
 
     const link = document.createElement("a");
     link.href = URL.createObjectURL(content);
@@ -36,17 +42,12 @@ export default function SandpackEditor() {
   };
   useEffect(() => {
     if (!webContainer) return;
-    startApplication(webContainer, sandpack.files, setUrl);
+    startApplication(webContainer, sandpack.files, setUrl, setLoadingState);
   }, [webContainer]);
 
   useEffect(() => {
     if (!webContainer) return;
     const mountFiles = async (files: SandpackFiles) => {
-      if (
-        sandpack.files["/package.json"].code !==
-        webContainer.fs.readFile("/package.json").toString()
-      ) {
-      }
       const webContainerfiles = convertSandpackToWebContainers(sandpack.files);
       await webContainer.mount(webContainerfiles);
     };
@@ -73,7 +74,7 @@ export default function SandpackEditor() {
             className=" bg-card"
             style={{
               width: "100%",
-              height: "98% !important ",
+              height: "80% !important ",
               display: "flex",
               backgroundColor: "",
               overflow: "scroll",
@@ -97,7 +98,7 @@ export default function SandpackEditor() {
           </SandpackLayout>
         </TabsContent>
         <TabsContent value="preview" className=" w-full h-full  px-1  ">
-          <Preview url={url} />
+          <Preview url={url} loadingState={loadingState} />
         </TabsContent>
       </Tabs>
     </div>
