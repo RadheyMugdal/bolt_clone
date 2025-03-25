@@ -97,7 +97,7 @@ export default function SandpackEditor() {
             />
           </SandpackLayout>
         </TabsContent>
-        <TabsContent value="preview" className=" w-full h-full  px-1  ">
+        <TabsContent value="preview" className=" w-full h-full   px-1  ">
           <Preview url={url} loadingState={loadingState} />
         </TabsContent>
       </Tabs>
