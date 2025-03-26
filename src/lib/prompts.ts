@@ -323,6 +323,7 @@ For all designs I ask you to make, have them be beautiful, not cookie cutter and
   
 
     {  
+       "title":"Small title for the project",
        description:"What ever initial response you give apart from code",
        files:{
         "/path/to/file": {

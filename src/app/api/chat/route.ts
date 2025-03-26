@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
       .update(workspaces)
       .set({
         projectFiles: ans.files,
+        title: ans.title,
       })
       .where(eq(workspaces.id, workspaceId))
       .returning();

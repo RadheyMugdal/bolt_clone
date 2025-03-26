@@ -1,15 +1,13 @@
 "use client";
 import { Message } from "@/app/~/[id]/page";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useGenerateInitialProject } from "@/hooks/ai/useGenerateInitialProject";
 import { useGenerateProject } from "@/hooks/ai/useGenerateProject";
 import { SandpackBundlerFiles } from "@codesandbox/sandpack-client";
 import { ArrowRight } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import BouncingLoader from "./BouncingLoader";
+import UserAvatar from "./auth/UserAvatar";
 
 interface ChatProps {
   setMessages: React.Dispatch<React.SetStateAction<Message[] | undefined>>;
@@ -26,8 +24,6 @@ const Chat: React.FC<ChatProps> = ({
   projectData,
   setProjectData,
 }) => {
-  const router = useRouter();
-  const { data: session } = useSession();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { isLoading, data } = useGenerateInitialProject(messages);
@@ -84,15 +80,7 @@ const Chat: React.FC<ChatProps> = ({
             <div key={index}>
               {message.role === "user" ? (
                 <div className="bg-card px-3 py-4 rounded-lg flex items-center gap-4">
-                  <Avatar>
-                    <AvatarImage src={session?.user?.image as string} />
-                    <AvatarFallback>
-                      {session?.user?.name
-                        ?.split(" ")
-                        .map((name) => name.charAt(0) as string)
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
+                  <UserAvatar />
                   <p className="text-foreground/80 text-sm">
                     {message.message}
                   </p>

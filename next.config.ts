@@ -2,12 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com/a/**",
-      },
-    ],
+    domains: ["lh3.googleusercontent.com", "avatars.githubusercontent.com"],
   },
   /* config options here */
   async headers() {

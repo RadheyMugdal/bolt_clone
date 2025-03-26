@@ -3,7 +3,7 @@ import LoginDialog from "@/components/dialogs/LoginDialog";
 import { Button } from "@/components/ui/button";
 import { useCreateWorkspace } from "@/hooks/workspace/useCreateWorkspace";
 import { SandpackBundlerFiles } from "@codesandbox/sandpack-client";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
@@ -14,15 +14,18 @@ export interface ProjectData {
 export default function Home() {
   const [message, setMessage] = useState("");
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const { mutateAsync, data } = useCreateWorkspace();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     if (!session) {
       setLoginDialogOpen(true);
       return;
     }
     await mutateAsync(message);
+    setLoading(false);
   };
 
   return (
@@ -35,7 +38,7 @@ export default function Home() {
       </div>
       <form
         action=""
-        className=" flex  max-w-xl w-full rounded-lg border  border-foreground/20"
+        className=" flex bg-card  max-w-xl w-full rounded-lg border  border-foreground/20"
         onSubmit={handleSubmit}
       >
         <textarea
@@ -48,7 +51,11 @@ export default function Home() {
         />
         <div className=" flex items-center p-4">
           <Button type="submit" className=" cursor-pointer" disabled={!message}>
-            <ArrowRight size={20} className=" text-black" />
+            {loading ? (
+              <Loader2 className=" animate-spin " size={20} />
+            ) : (
+              <ArrowRight size={20} className=" text-black" />
+            )}
           </Button>
         </div>
       </form>

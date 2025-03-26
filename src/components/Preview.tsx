@@ -38,10 +38,7 @@ const Preview = ({
     getPathName(url || "") as string
   );
   return (
-    <div
-      className="  w-full h-full
-    "
-    >
+    <div className="  w-full h-full">
       {loadingState === "Idle" ? (
         <div className=" w-full h-full bg-[#121212] border rounded-md overflow-hidden">
           <div className=" flex gap-2 items-center justify-between px-3">
