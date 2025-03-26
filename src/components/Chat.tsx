@@ -75,11 +75,11 @@ const Chat: React.FC<ChatProps> = ({
           </p>
         </div>
       ) : (
-        <div className=" flex-1  overflow-y-scroll flex flex-col gap-4 max-w-xl px-6 ">
+        <div className=" flex-1 flex flex-col gap-4  max-w-xl w-full px-6  overflow-y-scroll ">
           {messages?.map((message: any, index: any) => (
-            <div key={index}>
+            <div key={index} className=" w-full ">
               {message.role === "user" ? (
-                <div className="bg-card px-3 py-4 rounded-lg flex items-center gap-4">
+                <div className="bg-card px-3 w-full  py-4 rounded-lg flex items-center gap-4">
                   <UserAvatar />
                   <p className="text-foreground/80 text-sm">
                     {message.message}

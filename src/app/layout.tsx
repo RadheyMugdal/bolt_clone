@@ -1,6 +1,7 @@
 import UserAuth from "@/components/auth/UserAuth";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { WebContainerProvider } from "@/providers/web-container";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -34,25 +35,27 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <SessionProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <main className=" flex flex-col w-screen h-screen overflow-hidden  ">
-                <header className=" p-2 border-b flex items-center justify-between ">
-                  <h1 className=" text-xl font-bold flex  items-center gap-2">
-                    <HiLightningBolt />
-                    Bolt
-                  </h1>
-                  <div>
-                    <UserAuth />
-                  </div>
-                </header>
-                <div className=" min-h-0 grow">{children}</div>
-              </main>
-            </ThemeProvider>
+            <WebContainerProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <main className=" flex flex-col w-screen h-screen overflow-hidden  ">
+                  <header className=" p-2 border-b flex items-center justify-between ">
+                    <h1 className=" text-xl font-bold flex  items-center gap-2">
+                      <HiLightningBolt />
+                      Bolt
+                    </h1>
+                    <div>
+                      <UserAuth />
+                    </div>
+                  </header>
+                  <div className=" min-h-0 grow">{children}</div>
+                </main>
+              </ThemeProvider>
+            </WebContainerProvider>
           </SessionProvider>
         </body>
       </CustomQueryClientProvider>

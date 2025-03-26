@@ -10,7 +10,6 @@ export const useCreateWorkspace = () => {
       const res = await axios.post("/api/workspaces", {
         message,
       });
-      console.log(res.data);
 
       return res.data;
     },

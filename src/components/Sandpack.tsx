@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useWebContainer } from "@/hooks/useWebContainer";
 import { convertSandpackToWebContainers } from "@/lib/react-ts-template/common";
 import { startApplication } from "@/lib/webcontainer";
+import { useWebContainer } from "@/providers/web-container";
 import {
   SandpackCodeEditor,
   SandpackFileExplorer,
@@ -9,6 +9,7 @@ import {
   SandpackLayout,
   useSandpack,
 } from "@codesandbox/sandpack-react";
+import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -22,23 +23,18 @@ export type LoadingState =
 
 export default function SandpackEditor() {
   const { sandpack } = useSandpack();
-  const webContainer = useWebContainer();
+  const { webContainer } = useWebContainer();
   const [loadingState, setLoadingState] = useState<LoadingState>("Idle");
   const [url, setUrl] = useState("");
   const handleExportCode = async () => {
     const zip = new JSZip();
     await Object.entries(sandpack.files).forEach(([filePath, file]) => {
-      zip.file(filePath, file.code);
+      zip.file(filePath.replace("/", ""), file.code);
     });
 
-    const content = await zip.generateAsync({ type: "blob" });
-
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(content);
-    link.download = "example.zip";
-    link.click();
-
-    URL.revokeObjectURL(link.href);
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      saveAs(content, "project.zip");
+    });
   };
   useEffect(() => {
     if (!webContainer) return;
