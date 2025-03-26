@@ -4,9 +4,9 @@ import SidebarTrigger from "@/components/workspace/SidebarTrigger";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider className=" w-full h-full grow" defaultOpen={false}>
+    <SidebarProvider className=" w-full h-full min-h-full" defaultOpen={false}>
       <AppSidebar />
-      <main className=" w-full h-full">
+      <main className=" w-full h-full flex  ">
         <SidebarTrigger />
         {children}
       </main>

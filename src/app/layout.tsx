@@ -50,7 +50,7 @@ export default function RootLayout({
                     <UserAuth />
                   </div>
                 </header>
-                <div className=" min-h-0 grow  ">{children}</div>
+                <div className=" min-h-0 grow">{children}</div>
               </main>
             </ThemeProvider>
           </SessionProvider>

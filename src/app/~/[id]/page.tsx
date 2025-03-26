@@ -49,7 +49,7 @@ const Page = () => {
   };
 
   return (
-    <div className=" w-full h-full flex overflow-hidden  ">
+    <div className=" w-full h-full   flex overflow-hidden  ">
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel minSize={30}>
           {messages && (
