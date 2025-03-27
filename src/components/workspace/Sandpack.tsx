@@ -66,7 +66,7 @@ export default function SandpackEditor() {
           </TabsList>
           <button
             onClick={handleExportCode}
-            className=" flex items-center gap-2 mx-2 cursor-pointer border hover:bg-background p-2 rounded-lg"
+            className=" flex items-center gap-2 mx-2 cursor-pointer bg-background text-primary hover:text-primary/80 border-primary/20 border   p-2 rounded-lg"
           >
             <Download size={18} />
             Export code

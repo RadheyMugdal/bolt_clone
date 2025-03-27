@@ -1,5 +1,6 @@
 import LoginDialog from "@/components/dialogs/LoginDialog";
-import Header from "@/components/Header";
+import Header from "@/components/global/Header";
+import { Toaster } from "@/components/ui/sonner";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { WebContainerProvider } from "@/providers/web-container";
@@ -49,6 +50,7 @@ export default function RootLayout({
                   <Header />
                   <div className=" min-h-0 grow">{children}</div>
                   <LoginDialog />
+                  <Toaster />
                 </main>
               </ThemeProvider>
             </WebContainerProvider>

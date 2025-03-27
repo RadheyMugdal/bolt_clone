@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
-import Logo from "../Logo";
+import Logo from "../global/Logo";
 import { Button } from "../ui/button";
 import NewChatButton from "./NewChatButton";
 import WorkspacesList from "./WorkspacesList";
@@ -25,7 +25,7 @@ export function AppSidebar() {
         <div className=" w-full p-4">
           <NewChatButton />
         </div>
-        <SidebarGroup>
+        <SidebarGroup className=" flex-1 flex flex-col  ">
           <SidebarGroupLabel>Workspaces</SidebarGroupLabel>
           <WorkspacesList />
         </SidebarGroup>
@@ -33,7 +33,7 @@ export function AppSidebar() {
       <SidebarFooter>
         <div className=" py-3">
           <Link href={"/"}>
-            <Button className=" w-full" variant={"secondary"}>
+            <Button className=" w-full cursor-pointer flex items-center gap-3 bg-sidebar-accent hover:bg-sidebar-accent/80">
               <LogOut />
               Logout
             </Button>

@@ -6,8 +6,8 @@ import { useGenerateProject } from "@/hooks/ai/useGenerateProject";
 import { SandpackBundlerFiles } from "@codesandbox/sandpack-client";
 import { ArrowRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import BouncingLoader from "./BouncingLoader";
-import UserAvatar from "./auth/UserAvatar";
+import UserAvatar from "../auth/UserAvatar";
+import BouncingLoader from "../global/BouncingLoader";
 
 interface ChatProps {
   setMessages: React.Dispatch<React.SetStateAction<Message[] | undefined>>;
@@ -99,7 +99,7 @@ const Chat: React.FC<ChatProps> = ({
         </div>
       )}
       <form
-        className="flex  max-w-xl  w-full rounded-lg border bg-secondary relative  before:absolute before:content-[''] before:bg-conic before:from-primary before:to-background before:inset-0 before:-z-10     "
+        className="flex  max-w-xl  w-full rounded-lg border bg-input relative     "
         onSubmit={handleSubmit}
       >
         <textarea

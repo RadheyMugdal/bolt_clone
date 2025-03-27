@@ -17,7 +17,6 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-
   const { mutateAsync, data } = useCreateWorkspace();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +45,7 @@ export default function Home() {
       </div>
       <form
         action=""
-        className=" flex bg-secondary  max-w-xl w-full  rounded-lg border "
+        className=" flex bg-input  max-w-xl w-full  rounded-lg border "
         onSubmit={handleSubmit}
       >
         <textarea

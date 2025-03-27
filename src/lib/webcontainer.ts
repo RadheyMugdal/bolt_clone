@@ -1,4 +1,4 @@
-import { LoadingState } from "@/components/Sandpack";
+import { LoadingState } from "@/components/workspace/Sandpack";
 import { SandpackFiles } from "@codesandbox/sandpack-react";
 import { WebContainer } from "@webcontainer/api";
 import React from "react";

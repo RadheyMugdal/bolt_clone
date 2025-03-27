@@ -6,8 +6,8 @@ export const useGetWorkspaceData = (id: string) => {
     queryKey: ["workspace-data", id],
     queryFn: async () => {
       const res = await axios.get(`/api/workspace/${id}`);
-      if(res.status!==200){
-        throw new Error("Error getting workspace data")
+      if (res.status !== 200) {
+        throw new Error("Error getting workspace data");
       }
       return res.data;
     },

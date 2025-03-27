@@ -20,7 +20,7 @@ const WorkspacesList = () => {
     );
   }
   return (
-    <div className=" flex  flex-col">
+    <div className=" flex-1 flex  flex-col w-full overflow-y-scroll ">
       {data.map((workspace: any) => {
         return (
           <Link href={`/~/${workspace.id}`} key={workspace.id}>

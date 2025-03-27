@@ -1,15 +1,16 @@
 "use client";
-import { Loader2 } from "lucide-react";
-import { useParams } from "next/navigation";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import Chat from "@/components/Chat";
-import SandpackEditor from "@/components/Sandpack";
+import { Button } from "@/components/ui/button";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import Chat from "@/components/workspace/Chat";
+import SandpackEditor from "@/components/workspace/Sandpack";
 import { useGetWorkspaceData } from "@/hooks/workspace/useGetWorkspaceData";
 import { vite_template } from "@/lib/react-ts-template";
 import { SandpackBundlerFiles } from "@codesandbox/sandpack-client";
@@ -23,7 +24,7 @@ export interface Message {
 const Page = () => {
   const { id } = useParams();
   const { isLoading, data, error } = useGetWorkspaceData(id as string);
-
+  const router = useRouter();
   const [messages, setMessages] = useState<Message[] | undefined>();
   const [projectData, setProjectData] = useState<
     SandpackBundlerFiles | undefined
@@ -42,10 +43,22 @@ const Page = () => {
       </div>
     );
   }
+
   if (error) {
-    <div className=" w-full  h-full">
-      <p>Failed to load workspace data</p>
-    </div>;
+    return (
+      <div className=" w-full  h-full flex items-center justify-center flex-col gap-4 ">
+        <h1 className=" font-bold text-7xl text-red-400 ">404</h1>
+        <p className=" text-3xl opacity-60">Page not found</p>
+        <p className=" w-full max-w-xl text-center opacity-90">
+          The page you're looking for doesn't exist or has been moved. Check the
+          URL or try navigating back to the homepage.
+        </p>
+        <Button className=" " onClick={() => router.back()}>
+          <ArrowLeft />
+          Go back
+        </Button>
+      </div>
+    );
   }
 
   const files = {
