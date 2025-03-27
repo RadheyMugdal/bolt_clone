@@ -22,7 +22,7 @@ export interface Message {
 
 const Page = () => {
   const { id } = useParams();
-  const { isLoading, data } = useGetWorkspaceData(id as string);
+  const { isLoading, data, error } = useGetWorkspaceData(id as string);
 
   const [messages, setMessages] = useState<Message[] | undefined>();
   const [projectData, setProjectData] = useState<
@@ -37,10 +37,15 @@ const Page = () => {
 
   if (isLoading || !data) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className="flex w-full items-center justify-center h-full">
         <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
       </div>
     );
+  }
+  if (error) {
+    <div className=" w-full  h-full">
+      <p>Failed to load workspace data</p>
+    </div>;
   }
 
   const files = {
@@ -65,7 +70,7 @@ const Page = () => {
         {projectData && (
           <>
             <ResizableHandle />
-            <ResizablePanel minSize={40}>
+            <ResizablePanel minSize={40} defaultSize={65}>
               <SandpackProvider
                 options={{ activeFile: "/src/App.tsx" }}
                 files={files}

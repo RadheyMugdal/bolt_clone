@@ -1,19 +1,37 @@
-import { auth } from "@/auth";
+"use client";
+import { useDialogStore } from "@/store/dialogStore";
 import { Rocket } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { Button } from "../ui/button";
 import UserAvatar from "./UserAvatar";
 
-const UserAuth = async () => {
-  const session = await auth();
+const UserAuth = () => {
+  const session = useSession();
+  const { setOpen } = useDialogStore();
 
   return (
     <div className=" flex gap-2 p-1">
-      {session?.user ? (
+      {session?.data?.user ? (
         <UserAvatar />
       ) : (
-        <button className=" bg-blue-500 p-2 rounded-lg px-4 flex  gap-2 items-center ">
-          <Rocket size={18} />
-          Get started
-        </button>
+        <>
+          <Button
+            variant={"secondary"}
+            size={"sm"}
+            className=" bg-background cursor-pointer border"
+            onClick={() => setOpen(true)}
+          >
+            Signin
+          </Button>
+          <Button
+            className=" cursor-pointer"
+            size={"sm"}
+            onClick={() => setOpen(true)}
+          >
+            <Rocket size={18} />
+            Get started
+          </Button>
+        </>
       )}
     </div>
   );

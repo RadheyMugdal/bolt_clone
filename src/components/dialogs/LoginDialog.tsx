@@ -1,3 +1,4 @@
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -5,17 +6,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useDialogStore } from "@/store/dialogStore";
 import LoginButton from "../auth/LoginButton";
 
-const LoginDialog = ({
-  loaginDialogOpen,
-  setLoginDialogOpen,
-}: {
-  loaginDialogOpen: boolean;
-  setLoginDialogOpen: (value: boolean) => void;
-}) => {
+const LoginDialog = () => {
+  const { isOpen, setOpen } = useDialogStore();
   return (
-    <Dialog open={loaginDialogOpen} onOpenChange={setLoginDialogOpen}>
+    <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className=" text-center font-bold text-3xl">

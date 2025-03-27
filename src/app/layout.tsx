@@ -1,11 +1,11 @@
-import UserAuth from "@/components/auth/UserAuth";
+import LoginDialog from "@/components/dialogs/LoginDialog";
+import Header from "@/components/Header";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { WebContainerProvider } from "@/providers/web-container";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
-import { Geist, Geist_Mono } from "next/font/google";
-import { HiLightningBolt } from "react-icons/hi";
+import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,6 +15,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
 });
 
@@ -31,9 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <CustomQueryClientProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+        <body className={`${roboto.className} antialiased`}>
           <SessionProvider>
             <WebContainerProvider>
               <ThemeProvider
@@ -42,17 +45,10 @@ export default function RootLayout({
                 enableSystem
                 disableTransitionOnChange
               >
-                <main className=" flex flex-col w-screen h-screen overflow-hidden  ">
-                  <header className=" p-2 border-b flex items-center justify-between ">
-                    <h1 className=" text-xl font-bold flex  items-center gap-2">
-                      <HiLightningBolt />
-                      Bolt
-                    </h1>
-                    <div>
-                      <UserAuth />
-                    </div>
-                  </header>
+                <main className=" flex flex-col w-screen h-screen overflow-hidden   ">
+                  <Header />
                   <div className=" min-h-0 grow">{children}</div>
+                  <LoginDialog />
                 </main>
               </ThemeProvider>
             </WebContainerProvider>

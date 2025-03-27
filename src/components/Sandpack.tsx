@@ -51,11 +51,18 @@ export default function SandpackEditor() {
   }, [sandpack.files]);
   return (
     <div className=" w-full h-full px-4 py-2  ">
-      <Tabs defaultValue="code" className=" w-full h-full bg-card rounded-lg  ">
+      <Tabs
+        defaultValue="code"
+        className=" w-full h-full bg-secondary rounded-lg  "
+      >
         <div className=" flex justify-between items-center mx-2 mt-2">
-          <TabsList>
-            <TabsTrigger value="code">Code</TabsTrigger>
-            <TabsTrigger value="preview">Preview</TabsTrigger>
+          <TabsList className=" bg-background rounded-full">
+            <TabsTrigger value="code" className=" rounded-full">
+              Code
+            </TabsTrigger>
+            <TabsTrigger value="preview" className=" rounded-full">
+              Preview
+            </TabsTrigger>
           </TabsList>
           <button
             onClick={handleExportCode}
@@ -67,7 +74,7 @@ export default function SandpackEditor() {
         </div>
         <TabsContent value="code" className=" ">
           <SandpackLayout
-            className=" bg-card"
+            className=" bg-secondary"
             style={{
               width: "100%",
               height: "80% !important ",

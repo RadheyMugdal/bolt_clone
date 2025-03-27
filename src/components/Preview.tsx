@@ -40,7 +40,7 @@ const Preview = ({
   return (
     <div className="  w-full h-full">
       {loadingState === "Idle" ? (
-        <div className=" w-full h-full bg-[#121212] border rounded-md overflow-hidden">
+        <div className=" w-full h-full bg-secondary border rounded-md overflow-hidden">
           <div className=" flex gap-2 items-center justify-between px-3">
             <div className=" flex gap-2 items-center w-2/3 ">
               <button

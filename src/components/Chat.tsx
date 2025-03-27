@@ -66,7 +66,7 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   return (
-    <div className="flex  w-full h-full px-6 py-4 gap-8  overflow-hidden items-center flex-col transition-all duration-300">
+    <div className="flex  w-full h-full px-16 py-4 gap-8  overflow-hidden items-center flex-col transition-all duration-300">
       {messages?.length === 0 ? (
         <div className="flex flex-col items-center gap-3">
           <h1 className="text-5xl font-bold">What do you want to build?</h1>
@@ -99,19 +99,19 @@ const Chat: React.FC<ChatProps> = ({
         </div>
       )}
       <form
-        className="flex max-w-xl w-full rounded-lg border border-foreground/20"
+        className="flex  max-w-xl  w-full rounded-lg border bg-secondary relative  before:absolute before:content-[''] before:bg-conic before:from-primary before:to-background before:inset-0 before:-z-10     "
         onSubmit={handleSubmit}
       >
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="p-4 w-full resize-none focus:outline-0 focus:ring-0"
+          className="p-4 w-full  resize-none focus:outline-0 focus:ring-0"
           rows={4}
-          placeholder="Describe your project..."
+          placeholder="Start by describing you project."
         />
         <div className="flex items-center p-4">
           <Button type="submit" disabled={!message.trim()}>
-            <ArrowRight size={20} className="text-black" />
+            <ArrowRight size={20} />
           </Button>
         </div>
       </form>
