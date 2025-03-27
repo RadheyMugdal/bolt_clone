@@ -50,8 +50,8 @@ const Page = () => {
         <h1 className=" font-bold text-7xl text-red-400 ">404</h1>
         <p className=" text-3xl opacity-60">Page not found</p>
         <p className=" w-full max-w-xl text-center opacity-90">
-          The page you're looking for doesn't exist or has been moved. Check the
-          URL or try navigating back to the homepage.
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+          Check the URL or try navigating back to the homepage.
         </p>
         <Button className=" " onClick={() => router.back()}>
           <ArrowLeft />

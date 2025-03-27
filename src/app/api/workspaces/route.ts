@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         title: "New workspace",
       })
       .returning({ id: workspaces.id });
-    const messageData = await db.insert(messages).values({
+    await db.insert(messages).values({
       workspaceId: workspaceData[0].id,
       message: message,
       role: "user",

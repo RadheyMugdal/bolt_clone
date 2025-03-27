@@ -5,7 +5,6 @@ import { useWebContainer } from "@/providers/web-container";
 import {
   SandpackCodeEditor,
   SandpackFileExplorer,
-  SandpackFiles,
   SandpackLayout,
   useSandpack,
 } from "@codesandbox/sandpack-react";
@@ -43,11 +42,11 @@ export default function SandpackEditor() {
 
   useEffect(() => {
     if (!webContainer) return;
-    const mountFiles = async (files: SandpackFiles) => {
+    const mountFiles = async () => {
       const webContainerfiles = convertSandpackToWebContainers(sandpack.files);
       await webContainer.mount(webContainerfiles);
     };
-    mountFiles(sandpack.files);
+    mountFiles();
   }, [sandpack.files]);
   return (
     <div className=" w-full h-full px-4 py-2  ">

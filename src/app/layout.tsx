@@ -6,18 +6,8 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { WebContainerProvider } from "@/providers/web-container";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const roboto = Roboto({
   variable: "--font-roboto",

@@ -18,7 +18,7 @@ export const useCreateWorkspace = () => {
 
       return res.data;
     },
-    onSuccess(data, variables, context) {
+    onSuccess(data) {
       router.push(`/~/${data.id}`);
     },
   });

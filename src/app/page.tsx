@@ -17,7 +17,7 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-  const { mutateAsync, data } = useCreateWorkspace();
+  const { mutateAsync } = useCreateWorkspace();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

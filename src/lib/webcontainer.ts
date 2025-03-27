@@ -26,10 +26,7 @@ export async function startApplication(
     // );
     await installProcess.exit;
     setLoadingState("Starting the application");
-    const startApplicationProcess = await WebContainer.spawn("npm", [
-      "run",
-      "dev",
-    ]);
+    await WebContainer.spawn("npm", ["run", "dev"]);
     WebContainer.on("server-ready", (port, url) => {
       setUrl(url);
       setLoadingState("Idle");

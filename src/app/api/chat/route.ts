@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         role: "user",
       });
     }
-    const workspaceData = await db
+    await db
       .update(workspaces)
       .set({
         projectFiles: ans.files,
