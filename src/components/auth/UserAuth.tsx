@@ -1,8 +1,14 @@
 "use client";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useDialogStore } from "@/store/dialogStore";
-import { Rocket } from "lucide-react";
+import { LogOut, Rocket } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 import UserAvatar from "./UserAvatar";
 
 const UserAuth = () => {
@@ -12,7 +18,27 @@ const UserAuth = () => {
   return (
     <div className=" flex gap-2 p-1">
       {session?.data?.user ? (
-        <UserAvatar />
+        <Popover>
+          <PopoverTrigger>
+            {" "}
+            <UserAvatar />
+          </PopoverTrigger>
+          <PopoverContent className="  p-1 w-44 flex gap-2 flex-col rounded-sm ">
+            <p className=" text-center text-sm">Account</p>
+            <Separator />
+            <div className=" mt-2 flex gap-2 items-center  p-1 rounded-md cursor-pointer ">
+              <UserAvatar />
+              <div>
+                <p className=" text-xs">{session?.data?.user?.name}</p>
+                <p className=" text-xs opacity-70">Free plan</p>
+              </div>
+            </div>
+            <Button variant={"secondary"} className=" justify-start">
+              <LogOut size={18} />
+              Logout
+            </Button>
+          </PopoverContent>
+        </Popover>
       ) : (
         <>
           <Button

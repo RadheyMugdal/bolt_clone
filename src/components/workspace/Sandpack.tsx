@@ -47,7 +47,7 @@ export default function SandpackEditor() {
       await webContainer.mount(webContainerfiles);
     };
     mountFiles();
-  }, [sandpack.files]);
+  }, [sandpack.files, webContainer]);
   return (
     <div className=" w-full h-full px-4 py-2  ">
       <Tabs

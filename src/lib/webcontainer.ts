@@ -40,13 +40,3 @@ export async function bootWebContainer() {
   const webContainer = await WebContainer.boot();
   return webContainer;
 }
-
-export async function restartApplication(WebContainer: WebContainer) {
-  try {
-    if (!WebContainer) return;
-    const processes = await WebContainer.internal.getProcesses();
-    processes.forEach(({ pid }) => {});
-  } catch (error) {
-    console.error(error);
-  }
-}
