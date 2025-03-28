@@ -60,7 +60,7 @@ const Preview = ({
                     handleUrlChange();
                   }
                 }}
-                className=" m-2 w-full p-1.5 border-input  border-2 rounded-lg  focus:ring-0 focus:outline-none"
+                className=" m-2 w-full p-1.5   bg-input border  rounded-full px-2  focus:ring-0 focus:outline-none"
               />
             </div>
             <div className=" flex  items-center gap-4">

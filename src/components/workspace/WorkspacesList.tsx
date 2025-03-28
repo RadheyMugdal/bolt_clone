@@ -1,11 +1,12 @@
 "use client";
 import { useGetWorkspaces } from "@/hooks/workspace/useGetWorkspaces";
 import Link from "next/link";
-import { SidebarMenuButton } from "../ui/sidebar";
+import { SidebarMenuButton, useSidebar } from "../ui/sidebar";
 import { Skeleton } from "../ui/skeleton";
 
 const WorkspacesList = () => {
   const { data, isLoading } = useGetWorkspaces();
+  const { toggleSidebar } = useSidebar();
   if (isLoading) {
     return (
       <div className=" flex  flex-col gap-2">
@@ -23,7 +24,11 @@ const WorkspacesList = () => {
     <div className=" flex-1 flex  flex-col w-full overflow-y-scroll ">
       {data.map((workspace: any) => {
         return (
-          <Link href={`/~/${workspace.id}`} key={workspace.id}>
+          <Link
+            href={`/~/${workspace.id}`}
+            key={workspace.id}
+            onClick={toggleSidebar}
+          >
             <SidebarMenuButton>
               <p>{workspace.title}</p>
             </SidebarMenuButton>
