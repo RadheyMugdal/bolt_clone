@@ -63,7 +63,7 @@ export default function Home() {
               {loading ? (
                 <Loader2 className=" animate-spin " size={20} />
               ) : (
-                <ArrowRight size={20} className=" text-black" />
+                <ArrowRight />
               )}
             </Button>
           </div>
