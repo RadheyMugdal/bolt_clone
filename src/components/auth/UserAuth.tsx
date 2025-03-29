@@ -6,15 +6,19 @@ import {
 } from "@/components/ui/popover";
 import { useDialogStore } from "@/store/dialogStore";
 import { LogOut, Rocket } from "lucide-react";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import UserAvatar from "./UserAvatar";
 
 const UserAuth = () => {
   const session = useSession();
+  const router = useRouter();
   const { setOpen } = useDialogStore();
-
+  const handleLogout = async () => {
+    await signOut();
+    router.push("/");
+  };
   return (
     <div className=" flex gap-2 p-1">
       {session?.data?.user ? (
@@ -31,15 +35,15 @@ const UserAuth = () => {
                 <p className=" text-xs opacity-70">Free plan</p>
               </div>
             </div>
-            <Link href={"/"} className=" w-full">
-              <Button
-                variant={"secondary"}
-                className=" justify-start w-full hover:bg-accent cursor-pointer"
-              >
-                <LogOut size={18} />
-                Logout
-              </Button>
-            </Link>
+            ==
+            <Button
+              variant={"secondary"}
+              className=" justify-start w-full hover:bg-accent cursor-pointer"
+              onClick={handleLogout}
+            >
+              <LogOut size={18} />
+              Logout
+            </Button>
           </PopoverContent>
         </Popover>
       ) : (

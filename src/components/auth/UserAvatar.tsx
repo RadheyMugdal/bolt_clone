@@ -4,6 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const UserAvatar = () => {
   const { data: session } = useSession();
+  console.log(session);
+
   return (
     <Avatar>
       <AvatarImage src={session?.user?.image as string} />

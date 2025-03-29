@@ -7,10 +7,8 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { LogOut } from "lucide-react";
-import Link from "next/link";
 import Logo from "../global/Logo";
-import { Button } from "../ui/button";
+import Logout from "./Logout";
 import NewChatButton from "./NewChatButton";
 import WorkspacesList from "./WorkspacesList";
 
@@ -32,12 +30,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <div className=" py-3">
-          <Link href={"/"}>
-            <Button className=" w-full cursor-pointer flex items-center gap-3 bg-sidebar-accent hover:bg-sidebar-accent/80">
-              <LogOut />
-              Logout
-            </Button>
-          </Link>
+          <Logout />
         </div>
       </SidebarFooter>
     </Sidebar>
