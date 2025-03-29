@@ -27,7 +27,11 @@ const Chat: React.FC<ChatProps> = ({
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { isLoading, data } = useGenerateInitialProject(messages);
-  const { mutate } = useGenerateProject(setProjectData, setMessages);
+  const { mutate } = useGenerateProject(
+    setProjectData,
+    setMessages,
+    setLoading
+  );
   useEffect(() => {
     if (!data) return;
     setMessages((prev: any) => [
@@ -47,7 +51,6 @@ const Chat: React.FC<ChatProps> = ({
     ];
     setMessages(newMessages as Message[]);
     setLoading(true);
-
     const payload: { role: "user"; content: string }[] = [
       { role: "user", content: message.trim() },
     ];
@@ -62,7 +65,6 @@ const Chat: React.FC<ChatProps> = ({
     }
 
     await mutate(payload);
-    setLoading(false);
   };
 
   return (
