@@ -35,7 +35,7 @@ const UserAuth = () => {
                 <p className=" text-xs opacity-70">Free plan</p>
               </div>
             </div>
-            ==
+
             <Button
               variant={"secondary"}
               className=" justify-start w-full hover:bg-accent cursor-pointer"
