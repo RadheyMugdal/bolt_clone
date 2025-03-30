@@ -58,9 +58,7 @@ const Chat: React.FC<ChatProps> = ({
     if (projectData) {
       payload.push({
         role: "user",
-        content: `Here is the project files: ${JSON.stringify(
-          projectData.files
-        )}`,
+        content: `Here is the project files: ${JSON.stringify(projectData)}`,
       });
     }
 
