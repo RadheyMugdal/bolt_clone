@@ -107,7 +107,7 @@ const Chat: React.FC<ChatProps> = ({
           onChange={(e) => setMessage(e.target.value)}
           className="p-4 w-full  resize-none focus:outline-0 focus:ring-0"
           rows={4}
-          placeholder="Start by describing you project."
+          placeholder="How can I help you?"
         />
         <div className="flex items-center p-4">
           <Button type="submit" disabled={!message.trim()}>
