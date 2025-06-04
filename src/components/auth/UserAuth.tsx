@@ -5,7 +5,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useDialogStore } from "@/store/dialogStore";
-import { LogOut, Rocket } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -51,18 +51,10 @@ const UserAuth = () => {
           <Button
             variant={"secondary"}
             size={"sm"}
-            className=" bg-background cursor-pointer border"
+            className=" bg-background cursor-pointer border  rounded-full"
             onClick={() => setOpen(true)}
           >
             Signin
-          </Button>
-          <Button
-            className=" cursor-pointer"
-            size={"sm"}
-            onClick={() => setOpen(true)}
-          >
-            <Rocket size={18} />
-            Get started
           </Button>
         </>
       )}

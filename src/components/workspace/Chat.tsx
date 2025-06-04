@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useGenerateInitialProject } from "@/hooks/ai/useGenerateInitialProject";
 import { useGenerateProject } from "@/hooks/ai/useGenerateProject";
 import { SandpackBundlerFiles } from "@codesandbox/sandpack-client";
-import { ArrowRight } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import UserAvatar from "../auth/UserAvatar";
 import BouncingLoader from "../global/BouncingLoader";
+import { Textarea } from "../ui/textarea";
 
 interface ChatProps {
   setMessages: React.Dispatch<React.SetStateAction<Message[] | undefined>>;
@@ -99,20 +100,30 @@ const Chat: React.FC<ChatProps> = ({
         </div>
       )}
       <form
-        className="flex  max-w-xl  w-full rounded-lg border bg-input relative     "
+        className="flex  max-w-xl  w-full rounded-lg border  relative     "
         onSubmit={handleSubmit}
       >
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="p-4 w-full  resize-none focus:outline-0 focus:ring-0"
-          rows={4}
-          placeholder="How can I help you?"
-        />
-        <div className="flex items-center p-4">
-          <Button type="submit" disabled={!message.trim()}>
-            <ArrowRight size={20} />
-          </Button>
+        <div className="  bg-input/30 p-2 w-full  rounded-lg flex flex-col focus-within:outline">
+          <Textarea
+            placeholder="Start by describing your project"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className=" border-none !bg-transparent text-xs font-normal !ring-0 resize-none !outline-none"
+            rows={4}
+            disabled={loading}
+          />
+          <div className="w-full p-2 flex justify-end">
+            <Button
+              type="submit"
+              variant="secondary"
+              size="icon"
+              className="ml-auto"
+              aria-label="Submit project prompt"
+              disabled={loading || message.trim() === ""}
+            >
+              <ArrowUp />
+            </Button>
+          </div>
         </div>
       </form>
     </div>
