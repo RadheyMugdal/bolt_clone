@@ -80,14 +80,14 @@ const Chat: React.FC<ChatProps> = ({
           {messages?.map((message: any, index: any) => (
             <div key={index} className=" w-full ">
               {message.role === "user" ? (
-                <div className="bg-card px-3 w-full  py-4 rounded-lg flex items-center gap-4">
+                <div className="bg-card border px-3 w-full  py-4 rounded-lg flex items-center gap-4">
                   <UserAvatar />
                   <p className="text-foreground/80 text-sm">
                     {message.message}
                   </p>
                 </div>
               ) : (
-                <div className="bg-card px-3 py-4 rounded-lg flex flex-col gap-4">
+                <div className="bg-card px-3 border py-4 rounded-lg flex flex-col gap-4">
                   <p className="text-foreground/80 text-sm">
                     {message.message}
                   </p>

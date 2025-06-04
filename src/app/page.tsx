@@ -44,7 +44,7 @@ export default function Home() {
           <StaggerTextAnimation
             text="What do you want to build?"
             delay={0.5}
-            className=" text-5xl tracking-tighter"
+            className=" text-5xl font-semibold tracking-tighter"
           />
           <StaggerTextAnimation
             text="Describe your idea. Prompt, run, and generate beautiful websites instantly."

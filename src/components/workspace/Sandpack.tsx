@@ -12,6 +12,7 @@ import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 import Preview from "./Preview";
 
 export type LoadingState =
@@ -52,31 +53,28 @@ export default function SandpackEditor() {
     <div className=" w-full h-full px-4 py-2  ">
       <Tabs
         defaultValue="code"
-        className=" w-full h-full bg-secondary rounded-lg  "
+        className=" w-full h-full  border-[3px] rounded-lg  "
       >
         <div className=" flex justify-between items-center mx-2 mt-2">
-          <TabsList className=" bg-background rounded-full">
-            <TabsTrigger value="code" className=" rounded-full">
+          <TabsList className=" bg-accent rounded-full">
+            <TabsTrigger value="code" className=" rounded-full ">
               Code
             </TabsTrigger>
             <TabsTrigger value="preview" className=" rounded-full">
               Preview
             </TabsTrigger>
           </TabsList>
-          <button
-            onClick={handleExportCode}
-            className=" flex items-center gap-2 mx-2 cursor-pointer bg-background text-primary hover:text-primary/80 border-primary/20 border   p-2 rounded-lg"
-          >
-            <Download size={18} />
+          <Button size={"sm"} variant={"secondary"} className=" text-xs">
+            <Download size={10} />
             Export code
-          </button>
+          </Button>
         </div>
         <TabsContent value="code" className=" ">
           <SandpackLayout
             className=" bg-secondary"
             style={{
               width: "100%",
-              height: "80% !important ",
+              height: "100%",
               display: "flex",
               backgroundColor: "",
               overflow: "scroll",
@@ -84,7 +82,7 @@ export default function SandpackEditor() {
           >
             <SandpackFileExplorer
               style={{
-                height: "84vh",
+                height: "83vh",
               }}
             />
             <SandpackCodeEditor
@@ -93,13 +91,13 @@ export default function SandpackEditor() {
               closableTabs
               showInlineErrors
               style={{
-                height: "84vh",
+                height: "83vh",
                 backgroundColor: "",
               }}
             />
           </SandpackLayout>
         </TabsContent>
-        <TabsContent value="preview" className=" w-full h-full   px-1  ">
+        <TabsContent value="preview" className=" w-full h-full  ">
           <Preview url={url} loadingState={loadingState} />
         </TabsContent>
       </Tabs>
