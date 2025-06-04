@@ -4,7 +4,6 @@ import Header from "@/components/global/Header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/components/workspace/Sidebar";
-import SidebarTrigger from "@/components/workspace/SidebarTrigger";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { WebContainerProvider } from "@/providers/web-container";
@@ -52,7 +51,6 @@ export default async function RootLayout({
                     {session?.user && (
                       <>
                         <AppSidebar />
-                        <SidebarTrigger />
                       </>
                     )}
 

@@ -82,13 +82,13 @@ const Chat: React.FC<ChatProps> = ({
               {message.role === "user" ? (
                 <div className="bg-card border px-3 w-full  py-4 rounded-lg flex items-center gap-4">
                   <UserAvatar />
-                  <p className="text-foreground/80 text-sm">
+                  <p className="text-foreground/80 text-sm  whitespace-pre-wrap">
                     {message.message}
                   </p>
                 </div>
               ) : (
                 <div className="bg-card px-3 border py-4 rounded-lg flex flex-col gap-4">
-                  <p className="text-foreground/80 text-sm">
+                  <p className="text-foreground/80 text-sm whitespace-pre-wrap">
                     {message.message}
                   </p>
                 </div>
