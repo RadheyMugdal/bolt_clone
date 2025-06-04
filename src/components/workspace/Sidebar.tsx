@@ -5,11 +5,11 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import Logo from "../global/Logo";
 import Logout from "./Logout";
 import NewChatButton from "./NewChatButton";
+import SidebarCloseButton from "./SidebarCloseButton";
 import WorkspacesList from "./WorkspacesList";
 
 export function AppSidebar() {
@@ -17,7 +17,7 @@ export function AppSidebar() {
     <Sidebar collapsible="offcanvas">
       <SidebarHeader className=" flex flex-row items-center justify-between p-2">
         <Logo />
-        <SidebarTrigger size={"lg"} />
+        <SidebarCloseButton />
       </SidebarHeader>
       <SidebarContent>
         <div className=" w-full p-4">
