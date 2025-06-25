@@ -19,7 +19,7 @@ export const useCreateWorkspace = () => {
       return res.data;
     },
     onSuccess(data) {
-      router.push(`/~/${data.id}`);
+      router.push(`/project/${data.id}`);
     },
   });
 };

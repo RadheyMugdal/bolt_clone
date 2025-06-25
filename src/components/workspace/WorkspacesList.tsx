@@ -25,7 +25,7 @@ const WorkspacesList = () => {
       {data.map((workspace: any) => {
         return (
           <Link
-            href={`/~/${workspace.id}`}
+            href={`/project/${workspace.id}`}
             key={workspace.id}
             onClick={toggleSidebar}
           >
