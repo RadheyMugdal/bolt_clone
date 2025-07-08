@@ -1,5 +1,5 @@
 "use client";
-import { Message } from "@/app/~/[id]/page";
+import { Message } from "@/app/project/[id]/page";
 import { Button } from "@/components/ui/button";
 import { useGenerateInitialProject } from "@/hooks/ai/useGenerateInitialProject";
 import { useGenerateProject } from "@/hooks/ai/useGenerateProject";
