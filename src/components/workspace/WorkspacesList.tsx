@@ -29,7 +29,7 @@ const WorkspacesList = () => {
             key={workspace.id}
             onClick={toggleSidebar}
           >
-            <SidebarMenuButton>
+            <SidebarMenuButton className=" truncate">
               <p>{workspace.title}</p>
             </SidebarMenuButton>
           </Link>

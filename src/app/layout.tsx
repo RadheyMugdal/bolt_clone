@@ -4,17 +4,16 @@ import Header from "@/components/global/Header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/components/workspace/Sidebar";
-import SidebarTrigger from "@/components/workspace/SidebarTrigger";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { WebContainerProvider } from "@/providers/web-container";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -35,7 +34,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <CustomQueryClientProvider>
-        <body className={`${roboto.className} antialiased`}>
+        <body className={`${inter.className} antialiased`}>
           <SessionProvider>
             <WebContainerProvider>
               <ThemeProvider
@@ -45,11 +44,13 @@ export default async function RootLayout({
                 disableTransitionOnChange
               >
                 <SidebarProvider defaultOpen={false}>
-                  <main className=" flex flex-col w-screen h-screen overflow-hidden   ">
+                  <main className="  relative flex flex-col z-0 w-screen h-screen overflow-hidden     ">
+                    <div className="absolute inset-0 -z-10 bg-radial-[at_0%_0%] from-blue-400/20 via-transparent  via-30% " />
+                    <div className="absolute inset-0 -z-10 bg-radial-[at_100%_100%] from-violet-500/20 via-transparent  via-30% " />
+
                     {session?.user && (
                       <>
                         <AppSidebar />
-                        <SidebarTrigger />
                       </>
                     )}
 

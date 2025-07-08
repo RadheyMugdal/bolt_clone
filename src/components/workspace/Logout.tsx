@@ -11,10 +11,7 @@ const Logout = () => {
     router.push("/");
   };
   return (
-    <Button
-      className=" w-full cursor-pointer flex items-center gap-3 bg-sidebar-accent hover:bg-sidebar-accent/80"
-      onClick={handleLogout}
-    >
+    <Button className=" w-full" variant={"secondary"} onClick={handleLogout}>
       <LogOut />
       Logout
     </Button>
